@@ -1,18 +1,16 @@
 import React, { useState, useMemo } from 'react';
 
+// Filtra tareas según el estado
+export function filterTasks(tasks, filter) {
+  if (filter === 'completed') return tasks.filter(t => t.completed);
+  if (filter === 'pending') return tasks.filter(t => !t.completed);
+  return tasks;
+}
+
 const TaskList = ({ tasks, onToggle, onDelete }) => {
   const [filter, setFilter] = useState('all');
 
-  const filteredTasks = useMemo(() => {
-    switch (filter) {
-      case 'completed':
-        return tasks.filter(task => task.completed);
-      case 'pending':
-        return tasks.filter(task => !task.completed);
-      default:
-        return tasks;
-    }
-  }, [tasks, filter]);
+  const filteredTasks = useMemo(() => filterTasks(tasks, filter), [tasks, filter]);
 
   return (
     <div>
